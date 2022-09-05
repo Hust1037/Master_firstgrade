@@ -87,9 +87,11 @@ void getfileshash(char storePath[],char filePath[],char filename[] )
 int main()
 {
     char path[2048];
-    strcpy(path,"D:\\研一项目\\第一周8.31文件哈希\\hash_src");
+    cout << "请输入你要检查的文件夹所在的地址" << endl;
+    //strcpy(path,"D:\\研一项目\\第一周8.31文件哈希\\hash_src");
+    cin >> path;
     dir(path);
-   
+    cout << "生成摘要成功：默认在检查文件夹下创建hash文件夹并存储" << endl;
     return 0;
 }
 
