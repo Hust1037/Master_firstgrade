@@ -20,16 +20,32 @@
 #include<fstream>
 unsigned char* key = (unsigned char*)"12345678901";
 using namespace std;
-map<string, unsigned char*> filecollection;//文件名映射hash值，方便计算
-void getfileshash(char storePath[], char filePath[], char filename[]);
-void dir(string path);
-void dir(string path)
+void dir(string path,string rootdir);
+string un_chartostring(unsigned char* array);
+string size_ttostring(size_t n);
+string size_ttostring(size_t n)
+{
+    string str;
+    char strl[2048];
+    snprintf(strl, 2048, "%zu", n);
+    str = strl;
+    return str;
+}
+string un_chartostring(unsigned char* array)
+{
+    string str;
+    for (int i = 0; i < 32; i++)
+        str += to_string(array[i]);
+    return str;
+}
+void dir(string path,string rootdir)
 {
     long hFile = 0;
     struct _finddata_t fileInfo;
     string pathName, exdName;
-
-
+    
+    //只取自己的根文件夹
+   // path = filename1;
     if ((hFile = _findfirst(pathName.assign(path).
         append("\\*").c_str(), &fileInfo)) == -1) {
         return;
@@ -38,7 +54,8 @@ void dir(string path)
         if (fileInfo.attrib & _A_SUBDIR) {
             string fname = string(fileInfo.name);
             if (fname != ".." && fname != "." && fname != "hash") {
-                dir(path + "\\" + fname);
+                dir(path + "\\" + fname,rootdir+"\\"+fname);
+              
             }
         }
         else {
@@ -46,52 +63,45 @@ void dir(string path)
             char pathname[2048];
             char filePath[2048];
             strcpy(filename, fileInfo.name);
+            rootdir += "\\";
+            rootdir += filename;
             strcpy(pathname, path.c_str());
             strcpy(filePath, path.c_str());
             strcat(filePath, "\\");
             strcat(filePath, filename);
-            //cout << "file detail path" << " " << filePath << endl;
-            char buff[5];
-            strcpy(buff ,".txt");
-            strcat(filename, buff);//以文件名加.txt为后缀的名字作为存储hash后的结果的文件的名字 eg: Md5.c.txt
-           
-            //cout << pathname << endl;
-            getfileshash(pathname, filePath,filename);
+            cout << "file from root detail path" << " " << rootdir << endl;
+            
+            size_t n;
+            hash<string> h;
+            n = h(rootdir);
+            string rootdirvalue = size_ttostring(n);
+            string::size_type iPos = rootdir.find_last_of('\\');
+            rootdir = rootdir.substr(0, iPos);
+            unsigned char output[32];
+            int ret = sm3_hmac_file(filePath, key, output);
+            string hashvalue;
+            hashvalue = un_chartostring(output);
+            ofstream outFile;
+            outFile.open("hash.txt", ios::app);
+            outFile << rootdirvalue+hashvalue << endl;
         }
+        
     } while (_findnext(hFile, &fileInfo) == 0);
     _findclose(hFile);
     return;
 }
-void getfileshash(char storePath[],char filePath[],char filename[] )
-//filename->文件的具体路径 storePath->hash文件存储的位置
-{
-    unsigned char output[32];//存储的hash value
-    int ret = sm3_hmac_file(filePath, key, output);
-    strcat(storePath, "\\hash");
-    _mkdir(storePath);
-    strcat(storePath, "\\");
-    strcat(storePath, filename);
-    fstream file(storePath, /*ofstream::app|*/  ios::binary | ofstream::out);
-    if (!file) {
-        cout << "file open failed" << endl;
-        exit(0);
-    }
-    for (int i = 0; i < 32; i++)
-    {
-        unsigned char tmp;
-        tmp = output[i];
-        file.write((char*)&tmp, sizeof(tmp));
-    }
-    file.close();
-}
+
 int main()
 {
-    char path[2048];
+    string path;
     cout << "请输入你要检查的文件夹所在的地址" << endl;
-    //strcpy(path,"D:\\研一项目\\第一周8.31文件哈希\\hash_src");
-    cin >> path;
-    dir(path);
-    cout << "生成摘要成功：默认在检查文件夹下创建hash文件夹并存储" << endl;
+    path="D:\\研一项目\\第一周8.31文件哈希\\hash_src";
+    //cin >> path;
+    string::size_type iPos = path.find_last_of('\\');
+    string filename = path.substr(iPos + 1, filename.length() - iPos - 1);
+    string copy_filename1 = filename;
+    dir(path,filename);
+    cout << "生成摘要成功：默认在检查文件夹下根目录创建hash.txt并存储" << endl;
     return 0;
 }
 
