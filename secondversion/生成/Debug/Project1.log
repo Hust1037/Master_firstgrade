@@ -1,0 +1,10 @@
+﻿  创建hash文件.cpp
+D:\研一项目\file_no_UI\Project1\创建hash文件.cpp(40,13): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\研一项目\file_no_UI\Project1\创建hash文件.cpp(86,13): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\研一项目\file_no_UI\Project1\创建hash文件.cpp(89,13): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\研一项目\file_no_UI\Project1\创建hash文件.cpp(90,13): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\研一项目\file_no_UI\Project1\创建hash文件.cpp(91,13): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\研一项目\file_no_UI\Project1\创建hash文件.cpp(92,13): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\研一项目\file_no_UI\Project1\创建hash文件.cpp(120,5): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\研一项目\file_no_UI\Project1\创建hash文件.cpp(126,5): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  Project1.vcxproj -> D:\研一项目\file_no_UI\Project1\Debug\Project1.exe
